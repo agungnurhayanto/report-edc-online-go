@@ -1,24 +1,21 @@
 package monitoring
 
 import (
-	"monitoring-edc/internal/importer"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
-	service       Service
-	importService importer.Service
+	service Service
 }
 
 func NewHandler(
 	service Service,
-	importService importer.Service,
+
 ) *Handler {
 	return &Handler{
-		service:       service,
-		importService: importService,
+		service: service,
 	}
 }
 
