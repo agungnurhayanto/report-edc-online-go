@@ -11,12 +11,9 @@ func (r *repository) Count() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-
 	return total, nil
-
 }
 
-// func (r *repository) FindAll() ([]Monitoring, error) {
 func (r *repository) FindAll(
 	limit int,
 	offset int,

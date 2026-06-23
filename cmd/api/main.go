@@ -1,6 +1,7 @@
 package main
 
 import (
+	
 	"monitoring-edc/internal/database"
 	"monitoring-edc/internal/monitoring"
 
@@ -14,7 +15,12 @@ func main() {
 	repo := monitoring.NewRepository(database.DB)
 
 	service := monitoring.NewService(repo)
-	handler := monitoring.NewHandler(service)
+	//handler := monitoring.NewHandler(service)
+	importService := importer.NewService(service)
+	handler := monitoring.NewHandler(
+		service,
+		importService
+	)
 
 	r := gin.Default()
 
