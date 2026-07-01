@@ -46,5 +46,23 @@ func (s *service) Import(
 	data []Monitoring,
 ) error {
 
+	if len(data) == 0 {
+		return nil
+	}
+
+	tgl := data[0].Tgl
+
+	exists, err := s.repo.ExistByDate(tgl)
+	if err != nil {
+		return err
+	}
+
+	if exists {
+		err = s.repo.DeleteByDate(ctx, tgl)
+		if err != nil {
+			return err
+		}
+	}
+
 	return s.repo.BulkInsert(ctx, data)
 }

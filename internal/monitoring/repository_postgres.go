@@ -1,6 +1,9 @@
 package monitoring
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 func (r *repository) Count() (int, error) {
 	var total int
@@ -74,6 +77,36 @@ func (r *repository) FindAll(
 	}
 
 	return result, nil
+}
+
+func (r *repository) ExistByDate(tgl time.Time) (bool, error) {
+	var total int
+
+	query := `SELECT COUNT(*)
+	FROM monitoring_edc where tgl = $1
+	`
+
+	err := r.db.QueryRow(query, tgl).Scan(&total)
+	if err != nil {
+		return false, err
+	}
+
+	return total > 0, nil
+}
+
+func (r *repository) DeleteByDate(
+	ctx context.Context,
+	tgl time.Time,
+) error {
+	query := `DELETE FROM monitoring_edc WHERE tgl = $1`
+
+	_, err := r.db.ExecContext(
+		ctx,
+		query,
+		tgl,
+	)
+
+	return err
 }
 
 func (r *repository) BulkInsert(

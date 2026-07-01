@@ -3,6 +3,7 @@ package monitoring
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 type Repository interface {
@@ -18,6 +19,10 @@ type Repository interface {
 		limit int,
 		offset int,
 	) ([]Monitoring, error)
+
+	// validated
+	ExistByDate(tgl time.Time) (bool, error)
+	DeleteByDate(ctx context.Context, tgl time.Time) error
 }
 
 type repository struct {
